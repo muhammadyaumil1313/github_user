@@ -53,9 +53,6 @@ class DetailUsersFragment : Fragment() {
         //get data from bundling safeargs
         username = DetailUsersFragmentArgs.fromBundle(arguments as Bundle).username
         //declare api service
-        detailViewModel.getUsername.observe(viewLifecycleOwner){
-            
-        }
         apiConfig = ApiConfig.getApiService()
         //set loading
         detailViewModel.isLoading.observe(viewLifecycleOwner){
