@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/graph_nav"
+    app:startDestination="@id/listFragment">
+    <fragment
+        android:id="@+id/listFragment"
+        android:name="org.daylab.githubuser.UI.ListFragment"
+        android:label="fragment_list"
+        tools:layout="@layout/fragment_list" >
+        <action
+            android:id="@+id/action_listFragment_to_detailUsersFragment"
+            app:destination="@id/detailUsersFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailUsersFragment"
+        android:name="org.daylab.githubuser.UI.DetailUsersFragment"
+        android:label="fragment_detail_users"
+        tools:layout="@layout/fragment_detail_users" >
+        <argument
+            android:name="name"
+            app:argType="string"
+            android:defaultValue="default name" />
+        <argument
+            android:name="avatar_url"
+            app:argType="string"
+            android:defaultValue="default avatar url" />
+        <argument
+            android:name="username"
+            app:argType="string"
+            android:defaultValue="default username" />
+        <argument
+            android:name="followers"
+            app:argType="string"
+            android:defaultValue="default followers" />
+        <argument
+            android:name="following"
+            app:argType="string"
+            android:defaultValue="default following" />
+        <action
+            android:id="@+id/action_detailUsersFragment_to_listFragment"
+            app:destination="@id/listFragment"
+            app:popUpTo="@id/detailUsersFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/followersFragment"
+        android:name="org.daylab.githubuser.UI.FollowersFragment"
+        android:label="fragment_followers"
+        tools:layout="@layout/fragment_followers" >
+        <argument
+            android:name="username"
+            app:argType="string"
+            android:defaultValue="default username" />
+        <argument
+            android:name="avatar_url"
+            app:argType="string"
+            android:defaultValue="default avatar url" />
+    </fragment>
+
+</navigation>
