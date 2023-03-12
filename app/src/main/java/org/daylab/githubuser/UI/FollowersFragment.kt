@@ -22,7 +22,8 @@ import org.daylab.githubuser.viewModels.DetailViewModel
 class FollowersFragment : Fragment() {
     private lateinit var binding : FragmentFollowersBinding
     private lateinit var rvFollowers : RecyclerView
-    private val detailViewModel: DetailViewModel by viewModels({requireParentFragment()})
+    private val detailViewModel by viewModels<DetailViewModel>({requireParentFragment()})
+    private var username : String? = null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,7 +35,6 @@ class FollowersFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         rvFollowers = binding.rvFollowers
-//        detailViewModel = ViewModelProvider(this,ViewModelProvider.NewInstanceFactory())[DetailViewModel::class.java]
         rvFollowers.setHasFixedSize(true)
 
         val layoutManager = LinearLayoutManager(activity)
@@ -42,7 +42,12 @@ class FollowersFragment : Fragment() {
         val itemDecoration = DividerItemDecoration(activity, layoutManager.orientation)
         rvFollowers.addItemDecoration(itemDecoration)
 
-//        detailViewModel.getFollowers()
+
+        detailViewModel.username.observe(viewLifecycleOwner){
+            username = it
+        }
+        Log.d("username","username is $username")
+
         detailViewModel.listFollowers.observe(viewLifecycleOwner){
             runBlocking {
                 delay(1000)

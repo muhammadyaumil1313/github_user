@@ -23,7 +23,7 @@ class DetailViewModel : ViewModel() {
     val isToast : LiveData<Boolean> = _isToast
 
     private val _username = MutableLiveData<String>()
-    val getUsername : LiveData<String> = _username
+    val username : LiveData<String> = _username
 
     private val _dataUser = MutableLiveData<Item?>()
     val dataUser : LiveData<Item?> = _dataUser
@@ -36,6 +36,9 @@ class DetailViewModel : ViewModel() {
 
     private val apiConfig = ApiConfig.getApiService()
 
+    fun setUsername(name : String){
+        _username.value = name
+    }
     fun showDetailUser(dataUsername : String) : LiveData<Item?>{
         apiConfig.getDetailUser(dataUsername).enqueue(object : Callback<Item> {
             override fun onResponse(call: Call<Item>, response: Response<Item>) {

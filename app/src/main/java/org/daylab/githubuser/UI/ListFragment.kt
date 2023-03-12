@@ -9,6 +9,8 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -32,8 +34,7 @@ class ListFragment : Fragment() {
     private lateinit var binding : FragmentListBinding
     private lateinit var rvUsers : RecyclerView
     private lateinit var apiConfig: ApiService
-    private lateinit var listViewModel: ListViewModel
-
+    private val listViewModel: ListViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,8 +59,6 @@ class ListFragment : Fragment() {
         apiConfig = ApiConfig.getApiService()
         rvUsers = binding.listUsers
         rvUsers.setHasFixedSize(true)
-
-       listViewModel = ViewModelProvider(this,ViewModelProvider.NewInstanceFactory())[ListViewModel::class.java]
 
         listViewModel.isLoading.observe(viewLifecycleOwner){
             showLoading(it)

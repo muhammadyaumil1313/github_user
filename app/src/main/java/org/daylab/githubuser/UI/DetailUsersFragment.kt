@@ -52,6 +52,7 @@ class DetailUsersFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         //get data from bundling safeargs
         username = DetailUsersFragmentArgs.fromBundle(arguments as Bundle).username
+        detailViewModel.setUsername(username)
         //declare api service
         apiConfig = ApiConfig.getApiService()
         //set loading
@@ -69,8 +70,8 @@ class DetailUsersFragment : Fragment() {
                 setDetail(dataUsername=it?.login, dataAvatar = it?.avatarUrl, dataName = it?.name)
             }
         }
+        detailViewModel.getFollowers(dataUsername = username)
         //getFollowers
-        detailViewModel.getFollowers(username)
         detailViewModel.listFollowers.observe(viewLifecycleOwner){
             runBlocking {
                 delay(1000)
@@ -79,19 +80,19 @@ class DetailUsersFragment : Fragment() {
         }
 
         //getFollowing
-        detailViewModel.getFollowing(username).observe(viewLifecycleOwner){
-            runBlocking {
-                delay(1000)
-                binding.countFollowing.text = "Following : ${it.count()}"
-            }
-        }
+//        detailViewModel.getFollowing(username).observe(viewLifecycleOwner){
+//            runBlocking {
+//                delay(1000)
+//                binding.countFollowing.text = "Following : ${it.count()}"
+//            }
+//        }
 
         binding.arrowBack.setOnClickListener {
             findNavController().navigate(DetailUsersFragmentDirections.actionDetailUsersFragmentToListFragment())
         }
 
         //view pager and tablayout
-        val sectionsPagerAdapter = SectionsPagerAdapter(activity)
+        val sectionsPagerAdapter = SectionsPagerAdapter(childFragmentManager,this)
         val viewPager : ViewPager2 = binding.viewPager
         viewPager.adapter = sectionsPagerAdapter
         val tabs : TabLayout = binding.tabFollowingAndFollowers
