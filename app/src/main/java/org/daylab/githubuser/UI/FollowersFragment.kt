@@ -47,7 +47,6 @@ class FollowersFragment : Fragment() {
             username = it
         }
 
-//        detailViewModel.getFollowers(dataUsername = username.toString())
         detailViewModel.listFollowers.observe(viewLifecycleOwner){
             runBlocking {
                 delay(1000)
