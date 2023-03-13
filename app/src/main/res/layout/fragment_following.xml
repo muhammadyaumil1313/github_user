@@ -5,10 +5,8 @@
     android:layout_height="match_parent"
     tools:context=".UI.FollowingFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_following"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Following Tabs" />
-
+        android:layout_height="match_parent" />
 </FrameLayout>

@@ -70,8 +70,8 @@ class DetailUsersFragment : Fragment() {
                 setDetail(dataUsername=it?.login, dataAvatar = it?.avatarUrl, dataName = it?.name)
             }
         }
-        detailViewModel.getFollowers(dataUsername = username)
         //getFollowers
+        detailViewModel.getFollowers(dataUsername = username)
         detailViewModel.listFollowers.observe(viewLifecycleOwner){
             runBlocking {
                 delay(1000)
@@ -80,12 +80,10 @@ class DetailUsersFragment : Fragment() {
         }
 
         //getFollowing
-//        detailViewModel.getFollowing(username).observe(viewLifecycleOwner){
-//            runBlocking {
-//                delay(1000)
-//                binding.countFollowing.text = "Following : ${it.count()}"
-//            }
-//        }
+        detailViewModel.getFollowing(dataUsername = username)
+        detailViewModel.listFollowing.observe(viewLifecycleOwner){
+            binding.countFollowing.text = "Following : ${it.count()}"
+        }
 
         binding.arrowBack.setOnClickListener {
             findNavController().navigate(DetailUsersFragmentDirections.actionDetailUsersFragmentToListFragment())

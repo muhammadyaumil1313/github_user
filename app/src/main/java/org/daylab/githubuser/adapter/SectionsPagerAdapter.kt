@@ -14,8 +14,8 @@ class SectionsPagerAdapter(fragmentManager: FragmentManager, fragment: Fragment)
     override fun createFragment(position: Int): Fragment {
         var fragment : Fragment? = null
         when(position){
-            0 -> fragment = FollowersFragment()
-            1 -> fragment = FollowingFragment()
+            0 -> fragment = FollowingFragment()
+            1 -> fragment = FollowersFragment()
         }
         return fragment as Fragment
     }

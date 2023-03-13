@@ -72,22 +72,19 @@ class DetailViewModel : ViewModel() {
 
         })
     }
-    fun getFollowing(dataUsername: String) : LiveData<List<Item?>>{
+    fun getFollowing(dataUsername: String){
         apiConfig.getFollowing(dataUsername).enqueue(object : Callback<List<Item>>{
             override fun onResponse(call: Call<List<Item>>, response: Response<List<Item>>) {
                 _isLoading.value = true
                 if(response.isSuccessful){
                     _listFollowing.value = response.body()
                     _isLoading.value = false
-
                 }
             }
-
             override fun onFailure(call: Call<List<Item>>, t: Throwable) {
                 _isToast.value = true
             }
 
         })
-        return listFollowing
     }
 }

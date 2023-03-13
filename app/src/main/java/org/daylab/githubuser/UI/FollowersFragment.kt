@@ -46,12 +46,11 @@ class FollowersFragment : Fragment() {
         detailViewModel.username.observe(viewLifecycleOwner){
             username = it
         }
-        Log.d("username","username is $username")
 
+//        detailViewModel.getFollowers(dataUsername = username.toString())
         detailViewModel.listFollowers.observe(viewLifecycleOwner){
             runBlocking {
                 delay(1000)
-                Log.d("data list followers","${it.size}")
                 val listFollowersAdapter = FollowersListAdapter(it as ArrayList<Item>)
                 rvFollowers.adapter = listFollowersAdapter
                 listFollowersAdapter.notifyDataSetChanged()
