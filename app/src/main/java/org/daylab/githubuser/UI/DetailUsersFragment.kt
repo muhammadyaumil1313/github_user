@@ -1,12 +1,15 @@
 package org.daylab.githubuser.UI
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.get
@@ -36,6 +39,7 @@ import retrofit2.Response
 class DetailUsersFragment : Fragment() {
     private lateinit var binding : FragmentDetailUsersBinding
     private lateinit var apiConfig: ApiService
+    private var backpressed : Boolean = false
     lateinit var username : String
     private val detailViewModel: DetailViewModel by viewModels()
 
@@ -47,7 +51,6 @@ class DetailUsersFragment : Fragment() {
         // Inflate the layout for this fragment
         return binding.root
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //get data from bundling safeargs
@@ -84,11 +87,6 @@ class DetailUsersFragment : Fragment() {
         detailViewModel.listFollowing.observe(viewLifecycleOwner){
             binding.countFollowing.text = "Following : ${it.count()}"
         }
-
-        binding.arrowBack.setOnClickListener {
-            findNavController().navigate(DetailUsersFragmentDirections.actionDetailUsersFragmentToListFragment())
-        }
-
         //view pager and tablayout
         val sectionsPagerAdapter = SectionsPagerAdapter(childFragmentManager,this)
         val viewPager : ViewPager2 = binding.viewPager

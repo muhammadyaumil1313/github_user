@@ -97,7 +97,8 @@ class ListFragment : Fragment() {
     private fun itemClicked(listUsersAdapter : UserListAdapter){
         listUsersAdapter.setOnItemClickCallback(object : UserListAdapter.onitemClickCallback{
             override fun onItemClicked(dataUser: Item) {
-                listViewModel.detailUser(dataUser.login!!).observe(viewLifecycleOwner){
+                listViewModel.detailUser(dataUser.login.toString())
+                listViewModel.detailUserData.observe(viewLifecycleOwner){
                     val toDetailUsersFragment =
                         ListFragmentDirections.actionListFragmentToDetailUsersFragment()
                     toDetailUsersFragment.username = it?.login.toString()
@@ -126,8 +127,11 @@ class ListFragment : Fragment() {
                 if (query != null) {
                     searchView.clearFocus()
                     listViewModel.searchItems(query).observe(viewLifecycleOwner){
-                        val item = it as ArrayList<Item>
-                        setItem(item)
+                        runBlocking {
+                            delay(2000)
+                            val item = it as ArrayList<Item>
+                            setItem(item)
+                        }
                     }
                 }else{
                     Toast.makeText(activity,"Please fill the form search",Toast.LENGTH_SHORT).show()

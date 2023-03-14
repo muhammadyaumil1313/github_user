@@ -32,8 +32,8 @@ class ListViewModel : ViewModel() {
     private val _isToast = MutableLiveData<Boolean>()
     val isToast : LiveData<Boolean> = _isToast
 
-    private val _DetailUser = MutableLiveData<Item?>()
-    private val DetailUser : LiveData<Item?> = _DetailUser
+    private val _detailUser = MutableLiveData<Item?>()
+    val detailUserData : LiveData<Item?> = _detailUser
 
 
     private val _responseSearch = MutableLiveData<List<Item>>()
@@ -104,14 +104,14 @@ class ListViewModel : ViewModel() {
         return responseSearch
     }
 
-    fun detailUser(username: String) : LiveData<Item?>{
+    fun detailUser(username: String){
         val apiService = apiConfig.getDetailUser(username = username)
         apiService.enqueue(object  : Callback<Item>{
             override fun onResponse(call: Call<Item>, response: Response<Item>) {
                 val responseBody = response.body()
                 if(response.isSuccessful){
                     if(responseBody != null){
-                        _DetailUser.value = responseBody
+                        _detailUser.value = responseBody
                     }else{
                         _isToast.value = true
                         Log.d("response body failure", response.message())
@@ -128,7 +128,5 @@ class ListViewModel : ViewModel() {
             }
 
         })
-
-        return DetailUser
     }
 }

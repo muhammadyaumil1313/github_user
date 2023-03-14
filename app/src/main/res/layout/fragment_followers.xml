@@ -6,9 +6,19 @@
     tools:context=".UI.FollowersFragment">
 
 
+    <ProgressBar
+        android:id="@+id/pg_followers"
+        style="?android:attr/progressBarStyle"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_followers"
         tools:listitem="@layout/item_followers"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent" >
+
+    </androidx.recyclerview.widget.RecyclerView>
 </FrameLayout>

@@ -43,8 +43,13 @@ class FollowingFragment : Fragment() {
         rvFollowing.layoutManager = layoutManager
         val itemDecoration = DividerItemDecoration(activity, layoutManager.orientation)
         rvFollowing.addItemDecoration(itemDecoration)
+
         detailViewModel.username.observe(viewLifecycleOwner){
             username = it
+        }
+
+        detailViewModel.isLoading.observe(viewLifecycleOwner){
+            showLoading(it)
         }
 
         detailViewModel.listFollowing.observe(viewLifecycleOwner){
@@ -55,7 +60,8 @@ class FollowingFragment : Fragment() {
                 listFollowingAdapter.notifyDataSetChanged()
             }
         }
-
-
+    }
+    private fun showLoading(isLoading: Boolean) {
+        binding.pgFollowing.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 }
