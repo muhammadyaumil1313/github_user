@@ -42,7 +42,16 @@ class DetailUsersFragment : Fragment() {
     private var backpressed : Boolean = false
     lateinit var username : String
     private val detailViewModel: DetailViewModel by viewModels()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activity?.onBackPressedDispatcher?.addCallback(this,object : OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                findNavController()
+                    .navigate(DetailUsersFragmentDirections.actionDetailUsersFragmentToListFragment())
+            }
 
+        })
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,6 +62,7 @@ class DetailUsersFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         //get data from bundling safeargs
         username = DetailUsersFragmentArgs.fromBundle(arguments as Bundle).username
         detailViewModel.setUsername(username)
@@ -70,6 +80,7 @@ class DetailUsersFragment : Fragment() {
         detailViewModel.showDetailUser(username).observe(viewLifecycleOwner){
             runBlocking {
                 delay(3000)
+                Log.d("detail username",username)
                 setDetail(dataUsername=it?.login, dataAvatar = it?.avatarUrl, dataName = it?.name)
             }
         }

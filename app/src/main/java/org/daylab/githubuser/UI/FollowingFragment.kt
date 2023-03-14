@@ -54,7 +54,7 @@ class FollowingFragment : Fragment() {
 
         detailViewModel.listFollowing.observe(viewLifecycleOwner){
             runBlocking {
-                delay(2000)
+                delay(3000)
                 val listFollowingAdapter = FollowersListAdapter(it as ArrayList<Item>)
                 rvFollowing.adapter = listFollowingAdapter
                 listFollowingAdapter.notifyDataSetChanged()

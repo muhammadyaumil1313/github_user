@@ -61,8 +61,10 @@ class DetailViewModel : ViewModel() {
             override fun onResponse(call: Call<List<Item>>, response: Response<List<Item>>) {
                 _isLoading.value = true
                 if(response.isSuccessful){
-                    _listFollowers.value = response.body()
-                    _isLoading.value = false
+                    if(response.body() != null){
+                        _isLoading.value = false
+                        _listFollowers.value = response.body()
+                    }
                 }
             }
 

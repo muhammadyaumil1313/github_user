@@ -74,7 +74,6 @@ class ListFragment : Fragment() {
             showToast(it)
         }
 
-
         val layoutManager = LinearLayoutManager(activity)
         rvUsers.layoutManager = layoutManager
         val itemDecoration = DividerItemDecoration(activity, layoutManager.orientation)
