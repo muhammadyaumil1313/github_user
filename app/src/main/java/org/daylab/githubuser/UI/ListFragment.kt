@@ -125,12 +125,13 @@ class ListFragment : Fragment() {
                 // do query here
                 if (query != null) {
                     searchView.clearFocus()
-                    listViewModel.searchItems(query).observe(viewLifecycleOwner){
-                        runBlocking {
-                            delay(2000)
-                            val item = it as ArrayList<Item>
-                            setItem(item)
-                        }
+                    listViewModel.searchItems(query)
+                    listViewModel.responseSearch.observe(viewLifecycleOwner){
+                       runBlocking {
+                           delay(2000)
+                           val item = it as ArrayList<Item>
+                           setItem(item)
+                       }
                     }
                 }else{
                     Toast.makeText(activity,"Please fill the form search",Toast.LENGTH_SHORT).show()

@@ -9,23 +9,27 @@
     app:navGraph="@navigation/graph_nav"
     tools:context=".UI.ListFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-
-    <ProgressBar
-        android:id="@+id/pg_users"
-        style="?android:attr/progressBarStyle"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_users"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/item_user">
-
-    </androidx.recyclerview.widget.RecyclerView>
+        tools:listitem="@layout/item_user"/>
+    <TextView
+        android:id="@+id/errorData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:text="@string/data_tidak_tersedia" />
+    <ProgressBar
+        android:id="@+id/pg_users"
+        style="?android:attr/progressBarStyle"
+        android:layout_gravity="center"
+        android:visibility="visible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </FrameLayout>

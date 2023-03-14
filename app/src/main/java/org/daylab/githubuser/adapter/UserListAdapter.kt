@@ -30,7 +30,10 @@ class UserListAdapter(private val listUsers : ArrayList<Item>) : RecyclerView.Ad
     }
 
     override fun getItemCount() = listUsers.size
-
+    fun removeItem(position : Int){
+        listUsers.removeAt(position)
+        notifyItemChanged(position)
+    }
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val (name,avatar_url,login) = listUsers[position]
         Glide.with(holder.itemView.context).load(avatar_url).into(holder.photo)

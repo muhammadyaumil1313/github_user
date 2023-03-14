@@ -35,9 +35,12 @@ class ListViewModel : ViewModel() {
     private val _detailUser = MutableLiveData<Item?>()
     val detailUserData : LiveData<Item?> = _detailUser
 
+    private val _setTextError = MutableLiveData<String?>()
+    val textError : LiveData<String?> = _setTextError
+
 
     private val _responseSearch = MutableLiveData<List<Item>>()
-    private val responseSearch : LiveData<List<Item>> = _responseSearch
+    val responseSearch : LiveData<List<Item>> = _responseSearch
 
     private val apiConfig = ApiConfig.getApiService()
 
@@ -73,27 +76,23 @@ class ListViewModel : ViewModel() {
         })
     }
 
-    fun searchItems(username : String) : LiveData<List<Item>>{
+    fun searchItems(username : String){
+        _isLoading.value = true
         val client = apiConfig.searchData(username = username)
         client.enqueue(object : Callback<ResponseUser>{
             override fun onResponse(call: Call<ResponseUser>, response: Response<ResponseUser>) {
-               runBlocking {
-                   _isLoading.value = true
-                   delay(2000)
                    val responseBody = response.body()
                    if(response.isSuccessful){
                        if (responseBody != null) {
                            _responseSearch.value = responseBody.items
+                           _isLoading.value = false
                        }else{
-                           _isToast.value = true
+                           _setTextError.value = "Data Tidak Tersedia!"
                            Log.e("Error Response Body","Response Body Null")
                        }
                    }else{
-                       _isToast.value = true
                        Log.e(ListFragment.TAG, "onFailure: failure response is null")
                    }
-                   _isLoading.value = false
-               }
             }
 
             override fun onFailure(call: Call<ResponseUser>, t: Throwable) {
@@ -101,7 +100,6 @@ class ListViewModel : ViewModel() {
             }
 
         })
-        return responseSearch
     }
 
     fun detailUser(username: String){
