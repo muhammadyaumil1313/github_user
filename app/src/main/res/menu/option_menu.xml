@@ -9,5 +9,11 @@
             app:actionViewClass="androidx.appcompat.widget.SearchView"
             app:showAsAction="collapseActionView|ifRoom"
             />
+        <item
+            android:id="@+id/love_bar"
+            android:title="@string/love"
+            android:icon="@drawable/heart"
+            app:showAsAction="ifRoom"
+            />
     </group>
 </menu>

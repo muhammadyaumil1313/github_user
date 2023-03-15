@@ -108,6 +108,19 @@ class ListFragment : Fragment() {
         })
     }
 
+    @Deprecated("Deprecated in Java")
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        super.onOptionsItemSelected(item)
+        return when(item.itemId){
+            R.id.love_bar -> {
+                //TODO navigation to detail love
+                true
+            }
+            else -> {
+                true
+            }
+        }
+    }
 
     @Deprecated("Deprecated in Java")
     override fun onCreateOptionsMenu(menu: Menu, menuInflater: MenuInflater) {
