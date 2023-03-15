@@ -35,10 +35,6 @@ class ListViewModel : ViewModel() {
     private val _detailUser = MutableLiveData<Item?>()
     val detailUserData : LiveData<Item?> = _detailUser
 
-    private val _setTextError = MutableLiveData<String?>()
-    val textError : LiveData<String?> = _setTextError
-
-
     private val _responseSearch = MutableLiveData<List<Item>>()
     val responseSearch : LiveData<List<Item>> = _responseSearch
 
@@ -87,7 +83,6 @@ class ListViewModel : ViewModel() {
                            _responseSearch.value = responseBody.items
                            _isLoading.value = false
                        }else{
-                           _setTextError.value = "Data Tidak Tersedia!"
                            Log.e("Error Response Body","Response Body Null")
                        }
                    }else{
