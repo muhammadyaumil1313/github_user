@@ -113,10 +113,12 @@ class ListFragment : Fragment() {
         super.onOptionsItemSelected(item)
         return when(item.itemId){
             R.id.love_bar -> {
-                //TODO navigation to detail love
+                findNavController().navigate(ListFragmentDirections.actionListFragmentToLoveActivity())
                 true
             }
             else -> {
+                Toast.makeText(activity,"Sorry Navigation is not in service",
+                    Toast.LENGTH_SHORT).show()
                 true
             }
         }
