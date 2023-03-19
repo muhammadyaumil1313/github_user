@@ -1,7 +1,10 @@
-package org.daylab.githubuser.models
+package org.daylab.githubuser.entity
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Love(
     @SerializedName("name")
     val name : String?,
@@ -11,4 +14,4 @@ data class Love(
     val login: String?, // MuhammadYaumil1212
     @SerializedName("id")
     var id: Int?, // 54166418
-)
+) : Parcelable

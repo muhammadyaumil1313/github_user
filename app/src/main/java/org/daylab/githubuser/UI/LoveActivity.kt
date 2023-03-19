@@ -18,24 +18,15 @@ class LoveActivity : AppCompatActivity() {
         binding = ActivityLoveBinding.inflate(layoutInflater)
         supportActionBar?.title = "Love History"
         setContentView(binding.root)
-        actionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
         rvLoves = binding.rvLoves
         rvLoves.setHasFixedSize(true)
-        val dataDummy = Love("yaumil","https://unsplash.com/photos/wWpNyj0HVQg")
-        val dataList = ArrayList<Love>()
-        dataList.add(dataDummy)
-        setItem(dataList)
+
         val layoutManager = LinearLayoutManager(this)
         rvLoves.layoutManager = layoutManager
         val itemDecoration = DividerItemDecoration(this, layoutManager.orientation)
         rvLoves.addItemDecoration(itemDecoration)
 
-    }
-
-    private fun setItem(modelItemArray: ArrayList<Love>) {
-        val listLoversAdapter = LoveListAdapter(this,modelItemArray)
-        rvLoves.adapter = listLoversAdapter
-        listLoversAdapter.notifyDataSetChanged()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -1,5 +1,6 @@
 package org.daylab.githubuser.UI
 
+import android.content.ContentValues
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -18,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.delay
@@ -26,7 +28,10 @@ import okhttp3.ResponseBody
 import org.daylab.githubuser.R
 import org.daylab.githubuser.adapter.SectionsPagerAdapter
 import org.daylab.githubuser.databinding.FragmentDetailUsersBinding
+import org.daylab.githubuser.db.DatabaseContract
+import org.daylab.githubuser.helper.LoveHelper
 import org.daylab.githubuser.models.Item
+import org.daylab.githubuser.entity.Love
 import org.daylab.githubuser.models.ResponseUser
 import org.daylab.githubuser.utils.ApiConfig
 import org.daylab.githubuser.utils.ApiService
@@ -39,8 +44,10 @@ import retrofit2.Response
 class DetailUsersFragment : Fragment() {
     private lateinit var binding : FragmentDetailUsersBinding
     private lateinit var apiConfig: ApiService
-    private var backpressed : Boolean = false
     lateinit var username : String
+    private lateinit var loveHelper:LoveHelper
+    private lateinit var fab : FloatingActionButton
+    private var love:Love?=null
     private val detailViewModel: DetailViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,24 +73,31 @@ class DetailUsersFragment : Fragment() {
         //get data from bundling safeargs
         username = DetailUsersFragmentArgs.fromBundle(arguments as Bundle).username
         detailViewModel.setUsername(username)
+
+        loveHelper = LoveHelper.getInstance(requireContext())
+        loveHelper.open()
+
         //declare api service
         apiConfig = ApiConfig.getApiService()
+
         //set loading
         detailViewModel.isLoading.observe(viewLifecycleOwner){
             showLoading(it)
         }
+
         //set toast
         detailViewModel.isToast.observe(viewLifecycleOwner){
             showToast(it)
         }
+
         //implement the data
         detailViewModel.showDetailUser(username).observe(viewLifecycleOwner){
             runBlocking {
                 delay(3000)
-                Log.d("detail username",username)
                 setDetail(dataUsername=it?.login, dataAvatar = it?.avatarUrl, dataName = it?.name)
             }
         }
+
         //getFollowers
         detailViewModel.getFollowers(dataUsername = username)
         detailViewModel.listFollowers.observe(viewLifecycleOwner){
@@ -98,6 +112,10 @@ class DetailUsersFragment : Fragment() {
         detailViewModel.listFollowing.observe(viewLifecycleOwner){
             binding.countFollowing.text = "Following : ${it.count()}"
         }
+
+        //floating action button love
+        fab = binding.fabLove
+
         //view pager and tablayout
         val sectionsPagerAdapter = SectionsPagerAdapter(childFragmentManager,this)
         val viewPager : ViewPager2 = binding.viewPager
@@ -126,6 +144,22 @@ class DetailUsersFragment : Fragment() {
         if (dataAvatar != null && dataName != null && dataUsername != null){
             binding.name.text = dataName
             binding.username.text = dataUsername
+            fab.setOnClickListener {
+                val values = ContentValues()
+                values.put(DatabaseContract.LoveColumn.name, dataName)
+                values.put(DatabaseContract.LoveColumn.login,dataUsername)
+                values.put(DatabaseContract.LoveColumn.avatar_url,dataAvatar)
+                values.put(DatabaseContract.LoveColumn.followersUrl,"null")
+                values.put(DatabaseContract.LoveColumn.followingUrl,"null")
+                val isInserted = loveHelper.insert(values)
+                //lakukan penambahan data menggunakan button ini
+                if(isInserted > 0){
+                    love?.id = isInserted.toInt()
+                    Toast.makeText(activity,"Lovely! thanks bro",Toast.LENGTH_SHORT).show()
+                }else{
+                    Toast.makeText(activity,"Failed! Gagal menambahkan love!",Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
     }
