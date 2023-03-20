@@ -3,6 +3,7 @@ package org.daylab.githubuser.adapter
 import android.content.Context
 import android.content.Context.VIBRATOR_MANAGER_SERVICE
 import android.content.Context.VIBRATOR_SERVICE
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import org.daylab.githubuser.R
 import org.daylab.githubuser.databinding.ItemLoveBinding
+import org.daylab.githubuser.helper.LoveHelper
 import org.daylab.githubuser.models.Love
 
 class LoveListAdapter(private val context: Context,private val listLovers : ArrayList<Love>) : RecyclerView.Adapter<LoveListAdapter.ViewHolder>(){
@@ -48,6 +50,15 @@ class LoveListAdapter(private val context: Context,private val listLovers : Arra
         holder.username.text = login
         holder.itemView.setOnClickListener {
             onItemClickCallback.onItemClicked(listLovers[holder.adapterPosition])
+        }
+        holder.itemView.setOnLongClickListener {
+            val loveHelper = context.let { LoveHelper.getInstance(it.applicationContext) }
+            val love = listLovers[position]
+            loveHelper.open()
+            loveHelper.deleteById(love.id.toString())
+            removeItem(holder.adapterPosition)
+            loveHelper.close()
+            true
         }
     }
 

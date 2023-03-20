@@ -97,7 +97,7 @@ class DetailUsersFragment : Fragment() {
         detailViewModel.showDetailUser(username).observe(viewLifecycleOwner){
             runBlocking {
                 delay(3000)
-                setDetail(id = it?.id, dataUsername=it?.login, dataAvatar = it?.avatarUrl, dataName = it?.name)
+                setDetail(dataUsername=it?.login, dataAvatar = it?.avatarUrl, dataName = it?.name)
             }
         }
 
@@ -142,7 +142,7 @@ class DetailUsersFragment : Fragment() {
         binding.pgDetail.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
-    private fun setDetail(id : String?,dataUsername : String?, dataAvatar : String?,dataName : String?) {
+    private fun setDetail(dataUsername : String?, dataAvatar : String?,dataName : String?) {
         Glide.with(this).load(dataAvatar).into(binding.avatar)
         if (dataAvatar != null && dataName != null && dataUsername != null){
             binding.name.text = dataName
