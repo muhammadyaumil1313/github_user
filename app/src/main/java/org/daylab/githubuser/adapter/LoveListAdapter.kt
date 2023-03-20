@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Context.VIBRATOR_MANAGER_SERVICE
 import android.content.Context.VIBRATOR_SERVICE
 import android.os.Build
-import android.os.CombinedVibration
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.os.VibratorManager
@@ -15,25 +14,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import org.daylab.githubuser.R
+import org.daylab.githubuser.databinding.ItemLoveBinding
 import org.daylab.githubuser.models.Love
 
-class LoveListAdapter(private val context: Context, private val onItemClickCallback : OnItemClickCallback) : RecyclerView.Adapter<LoveListAdapter.ViewHolder>(){
-    var listLovers = ArrayList<Love>()
-    set(listLovers){
-        if(listLovers.size > 0){
-            this.listLovers.clear()
-        }
-        this.listLovers.addAll(listLovers)
-    }
-    fun addItem(love: Love){
-        this.listLovers.add(love)
-        notifyItemInserted(this.listLovers.size - 1)
-    }
-
+class LoveListAdapter(private val context: Context,private val listLovers : ArrayList<Love>) : RecyclerView.Adapter<LoveListAdapter.ViewHolder>(){
+    private lateinit var onItemClickCallback: OnItemClickCallback
     @RequiresApi(Build.VERSION_CODES.O)
     fun removeItem(position : Int){
         listLovers.removeAt(position)
@@ -55,15 +43,11 @@ class LoveListAdapter(private val context: Context, private val onItemClickCallb
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val (avatar_url,login) = listLovers[position]
+        val (_,avatar_url, login) = listLovers[position]
         Glide.with(holder.itemView.context).load(avatar_url).into(holder.photo)
         holder.username.text = login
-        holder.itemView.setOnLongClickListener {
-            removeItem(position)
-            true
-        }
         holder.itemView.setOnClickListener {
-            Toast.makeText(context,"Clicked!",Toast.LENGTH_SHORT).show()
+            onItemClickCallback.onItemClicked(listLovers[holder.adapterPosition])
         }
     }
 
@@ -84,8 +68,11 @@ class LoveListAdapter(private val context: Context, private val onItemClickCallb
         }
         
     }
+    fun setOnItemClickCallback(clickCallback : OnItemClickCallback){
+        this.onItemClickCallback = clickCallback
+    }
     interface OnItemClickCallback {
-        fun onItemClicked(selectedLove: Love?, position: Int?)
+        fun onItemClicked(dataLove:Love)
     }
 
 }

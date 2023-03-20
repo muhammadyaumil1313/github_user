@@ -113,7 +113,7 @@ class ListFragment : Fragment() {
         super.onOptionsItemSelected(item)
         return when(item.itemId){
             R.id.love_bar -> {
-                findNavController().navigate(ListFragmentDirections.actionListFragmentToLoveActivity())
+                findNavController().navigate(ListFragmentDirections.actionListFragmentToLoveFragment())
                 true
             }
             else -> {

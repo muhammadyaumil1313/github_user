@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_listFragment_to_loveActivity"
             app:destination="@id/loveActivity" />
+        <action
+            android:id="@+id/action_listFragment_to_loveFragment"
+            app:destination="@id/loveFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailUsersFragment"
@@ -52,6 +55,15 @@
         android:id="@+id/loveActivity"
         android:name="org.daylab.githubuser.UI.LoveActivity"
         android:label="activity_love"
-        tools:layout="@layout/activity_love" />
+        tools:layout="@layout/activity_love"/>
+    <fragment
+        android:id="@+id/loveFragment"
+        android:name="org.daylab.githubuser.UI.LoveFragment"
+        android:label="fragment_love"
+        tools:layout="@layout/fragment_love" >
+        <action
+            android:id="@+id/action_loveFragment_to_detailUsersFragment"
+            app:destination="@id/detailUsersFragment" />
+    </fragment>
 
 </navigation>

@@ -19,6 +19,17 @@ class LoveHelper(context: Context) {
                 INSTANCE?:LoveHelper(context)
             }
     }
+    fun checkIfExist(username : String?) : Boolean {
+        val sql = "SELECT COUNT(*) FROM ${LoveColumn.TABLE_NAME} WHERE ${LoveColumn.login} = ?"
+        val cursor = database.rawQuery(sql, arrayOf(username))
+        var exist = false
+        if (cursor.moveToFirst()) {
+            val count = cursor.getInt(0)
+            exist = count > 0
+        }
+        cursor.close()
+        return exist
+    }
     @Throws(SQLException::class)
     fun open() {
         database = DatabaseHelper.writableDatabase

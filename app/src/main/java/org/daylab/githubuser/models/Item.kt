@@ -15,5 +15,5 @@ data class Item(
     @SerializedName("following_url")
     val followingUrl: String?, // https://api.github.com/users/MuhammadYaumil1212/following{/other_user}
     @SerializedName("id")
-    val id: Int?, // 54166418
+    val id: String?, // 54166418
 )

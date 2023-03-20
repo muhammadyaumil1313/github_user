@@ -3,6 +3,7 @@ package org.daylab.githubuser.helper
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import org.daylab.githubuser.db.DatabaseContract
 import org.daylab.githubuser.db.DatabaseContract.LoveColumn
 
 internal class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME,null,
@@ -22,7 +23,6 @@ internal class DatabaseHelper(context: Context) : SQLiteOpenHelper(context, DATA
             )
         """
     }
-
     override fun onCreate(db: SQLiteDatabase?) {
         db?.execSQL(SQL_CREATE_TABLE_Love)
     }

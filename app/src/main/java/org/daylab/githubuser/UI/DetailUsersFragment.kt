@@ -31,7 +31,7 @@ import org.daylab.githubuser.databinding.FragmentDetailUsersBinding
 import org.daylab.githubuser.db.DatabaseContract
 import org.daylab.githubuser.helper.LoveHelper
 import org.daylab.githubuser.models.Item
-import org.daylab.githubuser.entity.Love
+import org.daylab.githubuser.models.Love
 import org.daylab.githubuser.models.ResponseUser
 import org.daylab.githubuser.utils.ApiConfig
 import org.daylab.githubuser.utils.ApiService
@@ -49,6 +49,9 @@ class DetailUsersFragment : Fragment() {
     private lateinit var fab : FloatingActionButton
     private var love:Love?=null
     private val detailViewModel: DetailViewModel by viewModels()
+    companion object{
+        const val EXTRA_USERNAME = "extra_username"
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activity?.onBackPressedDispatcher?.addCallback(this,object : OnBackPressedCallback(true){
@@ -94,7 +97,7 @@ class DetailUsersFragment : Fragment() {
         detailViewModel.showDetailUser(username).observe(viewLifecycleOwner){
             runBlocking {
                 delay(3000)
-                setDetail(dataUsername=it?.login, dataAvatar = it?.avatarUrl, dataName = it?.name)
+                setDetail(id = it?.id, dataUsername=it?.login, dataAvatar = it?.avatarUrl, dataName = it?.name)
             }
         }
 
@@ -139,7 +142,7 @@ class DetailUsersFragment : Fragment() {
         binding.pgDetail.visibility = if (isLoading) View.VISIBLE else View.GONE
     }
 
-    private fun setDetail(dataUsername : String?, dataAvatar : String?,dataName : String?) {
+    private fun setDetail(id : String?,dataUsername : String?, dataAvatar : String?,dataName : String?) {
         Glide.with(this).load(dataAvatar).into(binding.avatar)
         if (dataAvatar != null && dataName != null && dataUsername != null){
             binding.name.text = dataName
@@ -151,16 +154,19 @@ class DetailUsersFragment : Fragment() {
                 values.put(DatabaseContract.LoveColumn.avatar_url,dataAvatar)
                 values.put(DatabaseContract.LoveColumn.followersUrl,"null")
                 values.put(DatabaseContract.LoveColumn.followingUrl,"null")
-                val isInserted = loveHelper.insert(values)
-                //lakukan penambahan data menggunakan button ini
-                if(isInserted > 0){
-                    love?.id = isInserted.toInt()
-                    Toast.makeText(activity,"Lovely! thanks bro",Toast.LENGTH_SHORT).show()
+                val isExist = loveHelper.checkIfExist(dataUsername)
+                if(isExist){
+                    Toast.makeText(activity,"Data has been loved!",Toast.LENGTH_SHORT).show()
                 }else{
-                    Toast.makeText(activity,"Failed! Gagal menambahkan love!",Toast.LENGTH_SHORT).show()
+                    val isInserted = loveHelper.insert(values)
+                    if(isInserted > 0){
+                        love?.id = isInserted.toString()
+                        Toast.makeText(activity,"Lovely! thanks bro",Toast.LENGTH_SHORT).show()
+                    }else{
+                        Toast.makeText(activity,"Failed! Gagal menambahkan love!",Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
-
     }
 }
