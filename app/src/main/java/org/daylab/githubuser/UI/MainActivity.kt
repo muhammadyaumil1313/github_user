@@ -9,6 +9,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import org.daylab.githubuser.R
 import org.daylab.githubuser.adapter.SectionsPagerAdapter
 import org.daylab.githubuser.databinding.FragmentDetailUsersBinding
+import org.daylab.githubuser.utils.SettingPreferences
 
 class MainActivity : AppCompatActivity() {
     companion object{

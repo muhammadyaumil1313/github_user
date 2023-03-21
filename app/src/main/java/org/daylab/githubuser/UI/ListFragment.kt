@@ -3,15 +3,16 @@ package org.daylab.githubuser.UI
 import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.*
-import android.widget.Button
+import android.widget.Switch
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.appcompat.widget.SearchView
+import androidx.datastore.core.DataStore
+import androidx.datastore.dataStore
+import androidx.datastore.preferences.core.Preferences
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,16 +25,18 @@ import org.daylab.githubuser.databinding.FragmentListBinding
 import org.daylab.githubuser.models.Item
 import org.daylab.githubuser.utils.ApiConfig
 import org.daylab.githubuser.utils.ApiService
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import org.daylab.githubuser.utils.SettingPreferences
 import org.daylab.githubuser.viewModels.ListViewModel
-import kotlin.math.log
+import androidx.datastore.preferences.preferencesDataStore
 
+private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 class ListFragment : Fragment() {
+
     private lateinit var binding : FragmentListBinding
     private lateinit var rvUsers : RecyclerView
     private lateinit var apiConfig: ApiService
+    private lateinit var switcher : Switch
+    private lateinit var preferences: SettingPreferences
     private val listViewModel: ListViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +51,6 @@ class ListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentListBinding.inflate(inflater)
-
         // Inflate the layout for this fragment
         return binding.root
     }
@@ -56,9 +58,23 @@ class ListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         apiConfig = ApiConfig.getApiService()
         rvUsers = binding.listUsers
+        switcher = binding.switchLight
+        preferences = SettingPreferences.getInstance(dataStore)
         rvUsers.setHasFixedSize(true)
+
+
+        switcher.setOnCheckedChangeListener { _, isChecked : Boolean ->
+            if(isChecked){
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                switcher.isChecked = true
+            }else{
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                switcher.isChecked = false
+            }
+        }
 
         listViewModel.isLoading.observe(viewLifecycleOwner){
             showLoading(it)
