@@ -28,6 +28,9 @@ import org.daylab.githubuser.utils.ApiService
 import org.daylab.githubuser.utils.SettingPreferences
 import org.daylab.githubuser.viewModels.ListViewModel
 import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.ViewModelProvider
+import org.daylab.githubuser.viewModels.MainViewModel
+import org.daylab.githubuser.viewModels.ViewModelFactory
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 class ListFragment : Fragment() {
@@ -62,18 +65,23 @@ class ListFragment : Fragment() {
         apiConfig = ApiConfig.getApiService()
         rvUsers = binding.listUsers
         switcher = binding.switchLight
-        preferences = SettingPreferences.getInstance(dataStore)
+        preferences = SettingPreferences.getInstance(requireActivity().dataStore)
         rvUsers.setHasFixedSize(true)
 
-
-        switcher.setOnCheckedChangeListener { _, isChecked : Boolean ->
-            if(isChecked){
+        val mainViewModel =
+            ViewModelProvider(this,ViewModelFactory(preferences))[MainViewModel::class.java]
+        mainViewModel.getThemeSetting().observe(requireActivity()) { isDarkModeActive: Boolean ->
+            if (isDarkModeActive) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
                 switcher.isChecked = true
             }else{
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
                 switcher.isChecked = false
             }
+        }
+
+        switcher.setOnCheckedChangeListener { _, isChecked : Boolean ->
+            mainViewModel.saveThemeSetting(isChecked)
         }
 
         listViewModel.isLoading.observe(viewLifecycleOwner){
