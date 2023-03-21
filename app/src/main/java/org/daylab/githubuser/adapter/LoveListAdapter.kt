@@ -48,7 +48,6 @@ class LoveListAdapter(private val context: Context,private val listLovers : Arra
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val (_,avatar_url, login) = listLovers[position]
-        val love = listLovers[position]
         Glide.with(holder.itemView.context).load(avatar_url).into(holder.photo)
         holder.username.text = login
         holder.itemView.setOnClickListener {
