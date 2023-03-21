@@ -47,17 +47,6 @@ class LoveHelper(context: Context) {
 
         )
     }
-    fun queryById(id: String): Cursor {
-        return database.query(
-            DATABASE_TABLE,
-            null,
-            "${LoveColumn._ID} = ?",
-            arrayOf(id),
-            null,
-            null,
-            null,
-            null)
-    }
     fun insert(value: ContentValues?) : Long{
         return database.insert(DATABASE_TABLE,null,value)
     }

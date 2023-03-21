@@ -1,20 +1,17 @@
 package org.daylab.githubuser.UI
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
-import org.daylab.githubuser.R
-import org.daylab.githubuser.adapter.FollowersListAdapter
+import org.daylab.githubuser.adapter.FollowingListAdapter
 import org.daylab.githubuser.databinding.FragmentFollowingBinding
 import org.daylab.githubuser.models.Item
 import org.daylab.githubuser.viewModels.DetailViewModel
@@ -55,7 +52,7 @@ class FollowingFragment : Fragment() {
         detailViewModel.listFollowing.observe(viewLifecycleOwner){
             runBlocking {
                 delay(3000)
-                val listFollowingAdapter = FollowersListAdapter(it as ArrayList<Item>)
+                val listFollowingAdapter = FollowingListAdapter(it as ArrayList<Item>)
                 rvFollowing.adapter = listFollowingAdapter
                 listFollowingAdapter.notifyDataSetChanged()
             }

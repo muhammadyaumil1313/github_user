@@ -2,8 +2,6 @@ package org.daylab.githubuser.UI
 
 import android.content.ContentValues
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,11 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.annotation.StringRes
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.get
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
@@ -24,23 +18,14 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
-import okhttp3.ResponseBody
-import org.daylab.githubuser.R
 import org.daylab.githubuser.adapter.SectionsPagerAdapter
 import org.daylab.githubuser.databinding.FragmentDetailUsersBinding
 import org.daylab.githubuser.db.DatabaseContract
 import org.daylab.githubuser.helper.LoveHelper
-import org.daylab.githubuser.models.Item
 import org.daylab.githubuser.models.Love
-import org.daylab.githubuser.models.ResponseUser
 import org.daylab.githubuser.utils.ApiConfig
 import org.daylab.githubuser.utils.ApiService
 import org.daylab.githubuser.viewModels.DetailViewModel
-import org.daylab.githubuser.viewModels.ListViewModel
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-
 class DetailUsersFragment : Fragment() {
     private lateinit var binding : FragmentDetailUsersBinding
     private lateinit var apiConfig: ApiService
@@ -49,9 +34,6 @@ class DetailUsersFragment : Fragment() {
     private lateinit var fab : FloatingActionButton
     private var love:Love?=null
     private val detailViewModel: DetailViewModel by viewModels()
-    companion object{
-        const val EXTRA_USERNAME = "extra_username"
-    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activity?.onBackPressedDispatcher?.addCallback(this,object : OnBackPressedCallback(true){
@@ -96,7 +78,7 @@ class DetailUsersFragment : Fragment() {
         //implement the data
         detailViewModel.showDetailUser(username).observe(viewLifecycleOwner){
             runBlocking {
-                delay(3000)
+                delay(1000)
                 setDetail(dataUsername=it?.login, dataAvatar = it?.avatarUrl, dataName = it?.name)
             }
         }
@@ -104,10 +86,7 @@ class DetailUsersFragment : Fragment() {
         //getFollowers
         detailViewModel.getFollowers(dataUsername = username)
         detailViewModel.listFollowers.observe(viewLifecycleOwner){
-            runBlocking {
-                delay(1000)
-                binding.countFollowers.text = "Followers : ${it.count()}"
-            }
+            binding.countFollowers.text = "Followers : ${it.count()}"
         }
 
         //getFollowing

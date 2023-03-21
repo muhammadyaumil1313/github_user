@@ -1,19 +1,10 @@
 package org.daylab.githubuser.viewModels
 
 import android.util.Log
-import android.widget.Toast
-import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.navigation.Navigation
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
-import org.daylab.githubuser.R
 import org.daylab.githubuser.UI.ListFragment
-import org.daylab.githubuser.UI.ListFragmentDirections
 import org.daylab.githubuser.models.Item
 import org.daylab.githubuser.models.ResponseUser
 import org.daylab.githubuser.utils.ApiConfig

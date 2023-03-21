@@ -1,13 +1,8 @@
 package org.daylab.githubuser.viewModels
 
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.bumptech.glide.Glide
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
-import org.daylab.githubuser.databinding.FragmentDetailUsersBinding
 import org.daylab.githubuser.models.Item
 import org.daylab.githubuser.utils.ApiConfig
 import retrofit2.Call

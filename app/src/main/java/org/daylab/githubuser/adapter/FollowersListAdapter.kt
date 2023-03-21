@@ -27,7 +27,7 @@ class FollowersListAdapter(private val listUsers : ArrayList<Item>) : RecyclerVi
     override fun getItemCount() = listUsers.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val (name,avatar_url,login) = listUsers[position]
+        val (_,avatar_url,login) = listUsers[position]
         Glide.with(holder.itemView.context).load(avatar_url).into(holder.photo)
         holder.username.text = login
     }
